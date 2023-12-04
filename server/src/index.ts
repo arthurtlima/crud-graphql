@@ -4,6 +4,7 @@ import { schema } from './Schema';
 import cors from 'cors';
 import { DataSource } from 'typeorm';
 import  dotEnv from 'dotenv';
+import { Users } from './Entities/Users';
 
 dotEnv.config();
   
@@ -14,14 +15,13 @@ const main = async () => {
         port: 3306,
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
-        database: process.env.DATABASE,
-        synchronize: false,
+        database: process.env.DB_DATABASE,
         logging: true,
-        entities: []
+        synchronize: true,
+        entities: [Users]
     });
 
-    //    const result =  await AppDataSource.initialize()
-//    console.log(result)
+    await AppDataSource.initialize()
 
     const app = express();
     app.use(cors());
