@@ -5,7 +5,6 @@ import { Users } from "../../Entities/Users";
 export const CREATE_USER = {
     type: UserType,
     args: {
-        id: { type: GraphQLID },
         name: { type: GraphQLString },
         username: { type: GraphQLString },
         password: { type: GraphQLString },
@@ -14,5 +13,16 @@ export const CREATE_USER = {
         const { name, username, password } = args
         await Users.insert({ name, username, password })
         return args
+    },
+}
+
+export const DELETE_USER = {
+    type: UserType,
+    args: {
+        id: { type: GraphQLID },
+    },
+    async resolve(parent: any, args: any) {
+        const { id } = args
+        await Users.delete(id)
     },
 }
