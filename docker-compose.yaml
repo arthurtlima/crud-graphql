@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  mysql:
+    platform: linux/x86_64
+    container_name: mysql_crud_graphql
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile.mysql
+    env_file: ./mysql/.env
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    volumes: 
+      - ./mysql/files:/var/lib/mysql
+    networks: 
+      - crud-graphql-network
+  
+  server:
+    container_name: server_crud_graphql
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    command: ./start.sh 
+    entrypoint: dockerize -wait tcp://mysql_crud_graphql:3306 -timeout 20s docker-entrypoint.sh
+    restart: always
+    tty: true
+    volumes:
+      - ./server:/usr/src/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql
+    networks: 
+      - crud-graphql-network
+      
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client
+    restart: always
+    tty: true
+    ports:
+      - "4173:4173"
+    depends_on:
+      - server
+    networks:
+      - crud-graphql-network
+
+networks: 
+    crud-graphql-network:
+      driver: bridge  
