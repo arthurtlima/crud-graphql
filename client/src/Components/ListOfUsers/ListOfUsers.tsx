@@ -1,19 +1,25 @@
 import { GET_ALL_USERS } from "../../Graphql/Queries";
-import { useQuery } from "@apollo/client";
+import { DELETE_USER } from "../../Graphql/Mutation";
+import { useQuery, useMutation } from "@apollo/client";
 
 export function ListOfUsers() {
   const { data } = useQuery(GET_ALL_USERS);
 
-  if (data) {
-    console.log(data)
-  }
+  const [deleteUser, { error }] = useMutation(DELETE_USER);
 
   return (
     <div>
-        {data && data.getAllUsers.map((user: any) => {
+        {data && data.getAllUsers.map((user: any, index) => {
             return (
-                <div key={user.id}>
+                <div key={user.id+ "-" + index}>
                     <p>{user.name} / {user.username}</p>
+                    <button
+                      onClick={() => {
+                        deleteUser({ variables: { id: user.id } });
+                      }}
+                    >
+                      Delete User
+              </button>
                 </div>
             )
         })}
