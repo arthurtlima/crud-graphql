@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 
 import { CREATE_USER } from '../../Graphql/Mutation';
 
-export function CreateUser() {
+function CreateUser() {
 
     const [createUser, {error}] = useMutation(CREATE_USER);
 
@@ -24,3 +24,5 @@ export function CreateUser() {
         </div>
     )
 }
+
+export default CreateUser;

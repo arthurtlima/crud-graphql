@@ -2,7 +2,7 @@ import { GET_ALL_USERS } from "../../Graphql/Queries";
 import { DELETE_USER } from "../../Graphql/Mutation";
 import { useQuery, useMutation } from "@apollo/client";
 
-export function ListOfUsers() {
+function ListOfUsers() {
   const { data } = useQuery(GET_ALL_USERS);
 
   const [deleteUser, { error }] = useMutation(DELETE_USER);
@@ -26,3 +26,5 @@ export function ListOfUsers() {
     </div>
   );
 }
+
+export default ListOfUsers;
