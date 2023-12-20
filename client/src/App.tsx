@@ -1,5 +1,7 @@
-import { useState } from 'react'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+
+import { CreateUser } from './Components/CreateUser/CreateUser';
+
 import './App.css'
 
 function App() {
@@ -9,12 +11,14 @@ function App() {
       cache: new InMemoryCache()
     });
 
+
+
     return (
+      <>
       <ApolloProvider client={client}>
-        <div className="App">
-          <h1>React</h1>
-        </div>
+        <CreateUser />
       </ApolloProvider>
+      </>
     )
 }
 
